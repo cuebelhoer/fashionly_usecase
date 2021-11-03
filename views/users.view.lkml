@@ -93,7 +93,6 @@ view: users {
     sql:  EXTRACT(DAY from ${created_date}) <= EXTRACT(DAY from current_date())     ;;
   }
 
-
   dimension: age_group {
     description: "This field will group the customers into different age groups"
     type:  tier
