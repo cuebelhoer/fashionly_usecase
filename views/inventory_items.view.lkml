@@ -96,6 +96,7 @@ view: inventory_items {
     label: "Total Cost"
     type: sum
     sql: ${cost} ;;
+    value_format_name: usd_0
   }
 
   measure: avg_cost {
@@ -103,6 +104,7 @@ view: inventory_items {
     label: "Average Cost"
     type: average
     sql: ${cost} ;;
+    value_format_name: usd_0
   }
 
 }

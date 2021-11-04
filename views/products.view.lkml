@@ -13,6 +13,11 @@ view: products {
     type: string
     sql: ${TABLE}.brand ;;
     drill_fields: [detail_brand*]
+    link: {
+      label: "Brands Website"
+      url: "http://www.google.com/search?q={{ value }}"
+      icon_url: "http://google.com/favicon.ico"
+    }
   }
 
   dimension: category {

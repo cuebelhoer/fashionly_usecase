@@ -113,6 +113,7 @@ view: order_items {
     label: "Average Sale Price"
     type: number
     sql: ${total_sale_price}/ NULLIF(${num_distinct_customers},0) ;;
+    value_format_name: usd_0
   }
 
 
@@ -122,6 +123,7 @@ view: order_items {
     label: "Cumulative Total Sales"
     type: number
     sql: ${total_sale_price} ;;
+    value_format_name: usd_0
   }
 
   measure: total_gross_revenue {
@@ -160,6 +162,7 @@ view: order_items {
     type: count_distinct
     sql: ${id} ;;
     filters:  [status: "Returned"]
+    value_format_name: decimal_0
   }
 
 
@@ -169,6 +172,7 @@ view: order_items {
     type: count_distinct
     sql: ${id} ;;
     filters:  [status: "-Cancelled", status: "-Returned"]
+    value_format_name: decimal_0
   }
 
 
@@ -177,6 +181,7 @@ view: order_items {
     label: "Item Return Rate"
     type: number
     sql: ${num_items_returned}/ NULLIF(${num_items_sold}, 0);;
+    value_format_name: percent_2
   }
 
   measure: num_customers_returning_items {
@@ -185,13 +190,15 @@ view: order_items {
     type: count_distinct
     sql: ${user_id} ;;
     filters: [status: "Returned"]
+    value_format_name: decimal_0
   }
 
-  measure: users_with_returns_percentage {
+  measure: num_users_with_returns_percentage {
     description: "Number of customers returning items/ total number of customers."
     label: "Percentage of Users with Returns"
     type: number
     sql:  ${num_customers_returning_items}/NULLIF(${num_distinct_customers}, 0) ;;
+    value_format_name: decimal_0
   }
 
   measure: num_distinct_customers {
@@ -199,6 +206,7 @@ view: order_items {
     label: "Number of Distinct Customers"
     type: count_distinct
     sql: ${user_id} ;;
+    value_format_name: decimal_0
   }
 
   measure: avg_spend_per_customer {
@@ -207,6 +215,7 @@ view: order_items {
     type: number
     sql: ${total_gross_revenue}/NULLIF(${num_distinct_customers}, 0)  ;;
     drill_fields: [drill1*]
+    value_format_name: usd_0
   }
 
   measure: avg_spending  {
