@@ -92,8 +92,17 @@ view: inventory_items {
   }
 
   measure: total_cost {
-    description: "The total cost"
+    description: "The total cost of items sold from inventory"
+    label: "Total Cost"
     type: sum
     sql: ${cost} ;;
   }
+
+  measure: avg_cost {
+    description: "The average cost of items sold from inventory"
+    label: "Average Cost"
+    type: average
+    sql: ${cost} ;;
+  }
+
 }
