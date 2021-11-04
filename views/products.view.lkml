@@ -14,7 +14,7 @@ view: products {
     sql: ${TABLE}.brand ;;
     drill_fields: [detail_brand*]
     link: {
-      label: "Brands Website"
+      label: "Search Google for Brand Name"
       url: "http://www.google.com/search?q={{ value }}"
       icon_url: "http://google.com/favicon.ico"
     }

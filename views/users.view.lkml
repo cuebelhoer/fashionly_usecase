@@ -136,6 +136,16 @@ view: users {
 
   }
 
+#### Dimensions ####
+
+  #dimension: num_orders_in_groups {
+  #  description: "The grouped number of orders that a customer has placed since first using the website"
+  #  label: "Number of Orders - grouped"
+  #  type: tier
+  #  tiers: [1,2,3,6,10]
+  #  sql: ${num_orders} ;;
+  #}
+
 #### Measures ####
 
   measure: count {
@@ -153,6 +163,15 @@ view: users {
     sql: ${id};;
     filters: [is_created_mtd: "yes"]
   }
+
+  #measure: num_orders {
+  #  description: "The total number of orders that a customer has placed since first using the website"
+  #  label: "Number of (distinct) Orders"
+  #  type: count_distinct
+  #  sql: ${order_items.id} ;;
+  #  #filters: [users.created_date ">= order_items.created_date"]
+  #}
+
 
 
 }
