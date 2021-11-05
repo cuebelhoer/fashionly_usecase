@@ -99,8 +99,6 @@ view: user_item_order {
     }
   }
 
-
-
   ##### Measures #####
 
   measure: total_lifetime_orders {
@@ -108,13 +106,14 @@ view: user_item_order {
     label: "Total Lifetime Orders"
     type:  sum
     sql:  ${distinct_orders} ;;
+    value_format_name: decimal_0
   }
 
   measure: avg_lifetime_orders {
     description: "The average number of orders that a customer places over the course of their lifetime as a customer."
     label: "Average Orders"
     type: sum
-    sql: ${total_lifetime_orders}/${users.days_since_signup} ;;
+    sql: ${total_lifetime_orders}/NULLIF(${users.days_since_signup},0) ;;
     value_format_name: decimal_0
   }
 
