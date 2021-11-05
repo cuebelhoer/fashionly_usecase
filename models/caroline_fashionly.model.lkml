@@ -83,4 +83,16 @@ explore: user_item_order {
     sql_on: ${user_item_order.users_id} = ${users.id} ;;
     relationship: one_to_one
   }
+
+  join: order_items {
+    type: left_outer
+    sql_on:   ${user_item_order.users_id} = ${order_items.user_id } ;;
+    relationship: one_to_many
+  }
+
+  join: inventory_items {
+    type: left_outer
+    sql_on: ${user_item_order.users_id} = ${inventory_items.id} ;;
+    relationship: one_to_many
+  }
 }

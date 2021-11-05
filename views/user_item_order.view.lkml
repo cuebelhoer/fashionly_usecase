@@ -101,21 +101,21 @@ view: user_item_order {
 
 
 
-    ##### Measures #####
+  ##### Measures #####
 
-    measure: total_lifetime_orders {
-      description: "The total number of orders placed over the course of customers’ lifetimes."
-      label: "Total Lifetime Orders"
-      type:  sum
-      sql:  ${distinct_orders} ;;
-    }
+  measure: total_lifetime_orders {
+    description: "The total number of orders placed over the course of customers’ lifetimes."
+    label: "Total Lifetime Orders"
+    type:  sum
+    sql:  ${distinct_orders} ;;
+  }
 
-    measure: avg_lifetime_orders {
-      description: "The average number of orders that a customer places over the course of their lifetime as a customer."
-      label: "Average Orders"
-      type: number
-      sql: ${total_lifetime_orders}/${users.days_since_signup} ;;
-      value_format_name: decimal_0
-    }
+  measure: avg_lifetime_orders {
+    description: "The average number of orders that a customer places over the course of their lifetime as a customer."
+    label: "Average Orders"
+    type: sum
+    sql: ${total_lifetime_orders}/${users.days_since_signup} ;;
+    value_format_name: decimal_0
+  }
 
 }

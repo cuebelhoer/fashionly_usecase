@@ -137,7 +137,6 @@ view: order_items {
 
   #Total & Average cost -> inventory items
 
-
   measure: total_gross_margin {
     description: "This is the total difference between the total revenue from completed sales and the cost of the goods that were sold"
     label: "Total Gross Margin"
