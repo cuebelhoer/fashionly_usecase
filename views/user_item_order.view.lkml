@@ -4,7 +4,6 @@ view: user_item_order {
           order_items.user_id  AS users_id,
           order_items.id as orders_id,
           order_items.created_at as order_date,
-          order_items.total_orders as total_orders,
           COUNT(*) AS all_items,
           COUNT(DISTINCT order_items.order_id) AS distinct_orders,
           COALESCE(SUM(CASE WHEN (order_items.status <> 'Returned' OR order_items.status IS NULL) THEN order_items.sale_price  ELSE NULL END), 0) AS total_gross_revenue,
