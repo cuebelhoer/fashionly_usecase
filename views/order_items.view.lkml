@@ -100,6 +100,19 @@ view: order_items {
 
 ##### Measures #####
 
+  measure: total_orders {
+    description: "Total number of orders (cancelled and returned orders excluded)"
+    type: sum
+    sql: 1 ;;
+    filters: [status: "-Cancelled,-Returned"]
+  }
+
+  measure: total_orders2 {
+    description: "Total number of orders (cancelled and returned orders excluded)"
+    type: count
+    filters: [status: "-Cancelled,-Returned"]
+  }
+
   measure: total_sale_price {
     description: "This is the total of sold products (sum of sale prices). All orders included."
     label: "Total Sale Price"
