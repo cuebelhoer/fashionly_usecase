@@ -2,13 +2,10 @@ view: user_item_order {
   derived_table: {
     sql: SELECT
           order_items.user_id  AS users_id,
-          order_items.id as orders_id,
-          order_items.created_at as order_date,
-          SUM(order_items.total_orders) as lifetime_orders,
+          order_items.total_orders as lifetime_orders,
           MIN(order_items.created_at) as first_order,
           MAX(order_items.created_at) as latest_order,
           COUNT(DISTINCT EXTRACT(month from (order_items.created_at))) as number_of_distinct_months_with_orders,
-          RANK() OVER(PARTITION BY order_items.user_id ORDER BY order_items.created_at ASC) as user_order_sequence_number
           FROM order_items AS order_items
       WHERE ((TIMESTAMP_TRUNC(order_items.created_at , DAY)) <=  (TIMESTAMP_TRUNC(order_items.created_at , DAY)))
       GROUP BY users_id, orders_id, order_date

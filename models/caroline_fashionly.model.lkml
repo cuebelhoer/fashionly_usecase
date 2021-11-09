@@ -45,15 +45,9 @@ explore: order_items {
     relationship: many_to_one
   }
 
-  join: user_item_order {
+  join: user_facts {
     type: left_outer
-    sql_on:  ${order_items.user_id} = ${user_item_order.users_id}  ;;
-    relationship: many_to_one
-  }
-
-  join: user_nativeDT {
-    type: left_outer
-    sql_on: ${order_items.user_id} = ${user_nativeDT.user_id}  ;;
+    sql_on: ${order_items.user_id} = ${user_facts.user_id}  ;;
     relationship: many_to_one
   }
 }
