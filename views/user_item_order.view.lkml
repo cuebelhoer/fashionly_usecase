@@ -4,16 +4,12 @@ view: user_item_order {
           order_items.user_id  AS users_id,
           order_items.id as orders_id,
           order_items.created_at as order_date,
-          COUNT(*) AS all_items,
-          COUNT(DISTINCT order_items.order_id) AS distinct_orders,
-          COALESCE(SUM(CASE WHEN (order_items.status <> 'Returned' OR order_items.status IS NULL) THEN order_items.sale_price  ELSE NULL END), 0) AS total_gross_revenue,
-          MIN((order_items.created_at)) as first_order,
-          MAX((order_items.created_at)) as latest_order,
+          SUM(order_items.total_orders) as lifetime_orders,
+          MIN(order_items.created_at) as first_order,
+          MAX(order_items.created_at) as latest_order,
           COUNT(DISTINCT EXTRACT(month from (order_items.created_at))) as number_of_distinct_months_with_orders,
-          SUM(order_items.sale_price) as lifetime_revenue,
           RANK() OVER(PARTITION BY order_items.user_id ORDER BY order_items.created_at ASC) as user_order_sequence_number
-       FROM `thelook.order_items`
-           AS order_items
+          FROM order_items AS order_items
       WHERE ((TIMESTAMP_TRUNC(order_items.created_at , DAY)) <=  (TIMESTAMP_TRUNC(order_items.created_at , DAY)))
       GROUP BY users_id, orders_id, order_date
        ;;
@@ -28,11 +24,6 @@ view: user_item_order {
     primary_key: yes
     type: number
     sql: ${TABLE}.users_id ;;
-  }
-
-  dimension: all_items {
-    type: number
-    sql: ${TABLE}.all_items ;;
   }
 
   dimension: distinct_orders {
@@ -73,7 +64,7 @@ view: user_item_order {
   }
 
   set: detail {
-    fields: [users_id, all_items, distinct_orders]
+    fields: [users_id, distinct_orders]
   }
 
 
@@ -150,6 +141,7 @@ view: user_item_order {
     type:  number
     sql:   ${TABLE}.total_lifetime_orders ;;
   }
+
 
   ##### Measures #####
 

@@ -98,6 +98,19 @@ view: order_items {
     sql: ${TABLE}.user_id ;;
   }
 
+  dimension: first_order_date {
+    description: "The date in which a customer placed his or her first order on the fashion.ly website"
+    label: "First Order Date"
+    type: date
+    sql:  MIN(${created_date}) ;;
+  }
+
+  dimension: latest_order_date {
+    description: "The date in which a customer placed his or her first order on the fashion.ly website"
+    label: "First Order Date"
+    type: date
+    sql:  MAX(${created_date}) ;;
+  }
 ##### Measures #####
 
   measure: total_orders {
