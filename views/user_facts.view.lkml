@@ -1,21 +1,25 @@
 #include: "/explores/order_items.explore.lkml"
+#include: "caroline_fashionly.model.lkml"
 
 view: user_facts {
   derived_table: {
     explore_source: order_items {
-      column: created_date {}
+      filters: [order_items.status: "-Cancelled,-Returned"]
       column: user_id { field: order_items.user_id }
       column: first_order_date { field: order_items.first_order_date }
       column: latest_order_date {field: order_items.latest_order_date}
       column: lifetime_orders { field: order_items.total_orders }
       column: lifetime_revenue { field: order_items.total_gross_revenue }
-      derived_column: user_order_sequence {
-        sql: RANK() OVER(PARTITION BY user_id ORDER BY created_date ASC) ;;
-      }
-      filters: [order_items.status: "-Cancelled,-Returned"]
+      column: gross_revenue_last_30_days {field: order_items.total_gross_revenue_last_30_days}
+      #column: most_recent_event_date {field: events.most_recent_event_date}
     }
   }
 
+
+
+  measure: count {
+    type: count
+  }
 
   ##### Dimensions #####
 
@@ -71,8 +75,10 @@ view: user_facts {
     sql:  ${TABLE}.lifetime_revenue ;;
   }
 
-  dimension: user_order_sequence {
+
+  dimension: gross_revenue_last_30_days{
     type: number
+    sql: ${TABLE}.gross_revenue_last_30_days ;;
   }
 
   # Orders
@@ -82,6 +88,14 @@ view: user_facts {
     style: integer
     tiers: [0,1,2,3,6,10]
     sql: ${lifetime_orders} ;;
+  }
+
+  measure: total_gross_revenue_last_30_days {
+    description: "The total gross revenue during the last 30 days"
+    label: "Total Gross Revenue Last 30 Days"
+    type: sum
+    sql: ${gross_revenue_last_30_days} ;;
+    value_format_name: usd
   }
 
   measure: total_lifetime_orders {
@@ -107,19 +121,21 @@ view: user_facts {
     sql_end: current_date;;
   }
 
+
   dimension: is_active {
     description: "Identifies whether a customer is active or not (has purchased from the website within the last 90 days)"
     label: "Is Active"
     type: yesno
-    sql: days_since_last_order <= 90 ;;
+    sql: ${days_since_last_order} <= 90 ;;
   }
 
   dimension: is_repeat_customer {
     description: "Identifies whether a customer was a repeat customer or notv"
     label: "Is Repeat Customer"
     type: yesno
-    sql: ${user_order_sequence} = 1  ;;
+    sql: ${lifetime_orders} > 1  ;;
   }
+
 
 
   # Revenue
@@ -129,6 +145,8 @@ view: user_facts {
     label: "Total Lifetime Revenue"
     type:  sum
     sql: ${lifetime_revenue} ;;
+    value_format_name: usd
+
   }
 
   measure: avg_lifetime_revenue {
@@ -136,6 +154,7 @@ view: user_facts {
     label: "Average Lifetime Revenue"
     type:  average
     sql: ${lifetime_revenue} ;;
+    value_format_name: usd
   }
 
   dimension: customer_lifetime_revenue {

@@ -107,4 +107,6 @@ view: inventory_items {
     value_format_name: usd_0
   }
 
+
+
 }

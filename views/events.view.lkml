@@ -104,4 +104,10 @@ view: events {
     type: count
     drill_fields: [id, users.last_name, users.id, users.first_name]
   }
+
+  measure: most_recent_event_date {
+    description: "Returns the most recent date for any event registered"
+    type: min
+    sql: ${created_date} ;;
+  }
 }

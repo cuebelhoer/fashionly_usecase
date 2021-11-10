@@ -158,7 +158,16 @@ view: order_items {
     type: sum
     sql: ${sale_price} ;;
     filters:  [status: "-Cancelled", status: "-Returned"]
-    value_format_name: usd_0
+    value_format_name: usd
+  }
+
+  measure: total_gross_revenue_last_30_days {
+    description: "This is the total of sold products (sum of sale prices), excluding cancelled and returned orders."
+    label: "Total Gross Revenue"
+    type: sum
+    sql: ${sale_price} ;;
+    filters:  [status: "-Cancelled", status: "-Returned", created_date: "last 30 days"]
+    value_format_name: usd
   }
 
   #Total & Average cost -> inventory items
@@ -170,6 +179,8 @@ view: order_items {
     sql: ${total_gross_revenue} - ${inventory_items.total_cost} ;;
     value_format_name: usd_0
   }
+
+
 
   #Average Gross Margin -> Use Total Gross Margin per product and create Average with Table calculations
 
