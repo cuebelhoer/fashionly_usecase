@@ -101,6 +101,13 @@ view: users {
     sql: ${age} ;;
   }
 
+  dimension_group: signup_to_now {
+    description: "This field will return the number of days since sign up"
+    type: duration
+    sql_start:  ${created_date};;
+    sql_end: current_date() ;;
+  }
+
   dimension: days_since_signup {
     description: "This field will return the number of days since sign up"
     type: number

@@ -57,6 +57,18 @@ explore: order_items {
     relationship: one_to_one
   }
 
+  join: events {
+    type: left_outer
+    sql_on: ${events.user_id} = ${order_items.user_id} ;;
+    relationship: many_to_one
+  }
+
+  join: order_facts {
+    type: left_outer
+    sql_on: ${order_facts.order_id} = ${order_items.id} ;;
+    relationship:  many_to_one
+  }
+
 }
 
 explore: inventory_items {
@@ -74,12 +86,6 @@ explore: inventory_items {
 }
 
 explore: products {
-  join: distribution_centers {
-    type: left_outer
-    sql_on: ${products.distribution_center_id} = ${distribution_centers.id} ;;
-    relationship: many_to_one
-  }
-
   join: product_facts {
     type: left_outer
     sql_on: ${product_facts.product_id} = ${products.id};;

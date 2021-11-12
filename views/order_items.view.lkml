@@ -163,7 +163,7 @@ view: order_items {
 
   measure: total_gross_revenue_last_30_days {
     description: "This is the total of sold products (sum of sale prices), excluding cancelled and returned orders."
-    label: "Total Gross Revenue"
+    label: "Total Gross Revenue last 30 days"
     type: sum
     sql: ${sale_price} ;;
     filters:  [status: "-Cancelled", status: "-Returned", created_date: "last 30 days"]

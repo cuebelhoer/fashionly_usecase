@@ -138,7 +138,20 @@ view: user_facts {
 
 
 
+
   # Revenue
+
+  measure: count_is_active {
+    description: "Counts the number of active customers."
+    type: count
+    filters: [is_active: "yes"]
+  }
+
+  measure: count_non_active {
+    description: "Counts the number of non-active customers."
+    type: count
+    filters: [is_active: "no"]
+  }
 
   measure: total_lifetime_revenue {
     description: "The total amount of revenue brought in over the course of customers’ lifetimes."
@@ -158,7 +171,7 @@ view: user_facts {
   }
 
   dimension: customer_lifetime_revenue {
-    alpha_sort: yes
+    alpha_sort: no
     case: {
       when: {
         sql: ${lifetime_revenue} < 5.00;;

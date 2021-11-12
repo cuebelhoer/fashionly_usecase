@@ -32,10 +32,6 @@ view: product_facts {
 
 ### Measures ###
 
-  measure: num_orders {
-    type: count
-  }
-
   measure: num_repeat_customers{
     type: count_distinct
     sql:  ${user_id} ;;
@@ -47,6 +43,8 @@ view: product_facts {
     sql:  ${user_id} ;;
     filters: [count: "=1"]
   }
+
+
 
 
 }
