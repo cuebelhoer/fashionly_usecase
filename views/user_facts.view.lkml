@@ -113,12 +113,20 @@ view: user_facts {
     value_format_name: decimal_0
   }
 
-  dimension: days_since_last_order {
+  dimension_group: since_last_order {
     description: "The number of days since a customer placed his or her most recent order on the website"
-    label: "Days Since Last Order"
-    type: duration_day
+    label: " Since Last Order"
+    type: duration
     sql_start:  ${latest_order_date} ;;
     sql_end: current_date;;
+    intervals: [day,week,month,year]
+  }
+
+  dimension: tier_since_last_order{
+    description: "Tiers the dimension Since Last Order into several buckets"
+    type:  tier
+    tiers: [0,1,2,3,4,5,6,7,8,9,10,20,30,40,50,60,70]
+    sql:  ${days_since_last_order};;
   }
 
 

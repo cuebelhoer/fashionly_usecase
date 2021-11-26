@@ -1,4 +1,5 @@
 connection: "thelook_bq"
+# New Code
 
 # include all the views
 include: "/views/**/*.view"

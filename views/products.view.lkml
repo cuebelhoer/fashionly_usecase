@@ -16,7 +16,7 @@ view: products {
     link: {
       label: "Search Google for Brand Name"
       url: "http://www.google.com/search?q={{ value }}"
-      icon_url: "http://google.com/favicon.ico"
+      icon_url: "https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg"
     }
   }
 
@@ -56,7 +56,26 @@ view: products {
     sql: ${TABLE}.sku ;;
   }
 
-  ##### Dimensions #####
+  ##### Filter #####
+
+  filter: category_select {
+    suggest_dimension: products.category
+  }
+
+  filter: brand_select {
+    suggest_dimension: products.brand
+      }
+
+  dimension: brand_peer2peer {
+    type: string
+    sql:
+      CASE
+        WHEN {% condition brand_select %} brand {% endcondition %}
+          THEN ${products.brand}
+        ELSE 'Rest of Population'
+      END;;
+  }
+
 
 
   ##### Measures #####
